@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle} + ' — BiteBridge'">BiteBridge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 400:'#fb923c', 500:'#f97316', 600:'#ea6c0a', 700:'#c2550a' },
+                        surface: { 900:'#0f0f0f', 800:'#1a1a1a', 700:'#242424', 600:'#2e2e2e', 500:'#3a3a3a' }
+                    },
+                    fontFamily: {
+                        display: ['"Playfair Display"','serif'],
+                        body:    ['"DM Sans"','sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/webjars/leaflet/1.9.4/dist/leaflet.css}" href="/webjars/leaflet/1.9.4/dist/leaflet.css"/>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family:'DM Sans',sans-serif; background:#0f0f0f; color:#e5e5e5; }
+        .btn-primary { background:linear-gradient(135deg,#f97316,#ea6c0a); color:#fff; font-weight:600; border-radius:8px; padding:10px 20px; border:none; cursor:pointer; transition:opacity .2s,transform .1s; display:inline-block; text-decoration:none; }
+        .btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+        .btn-ghost { background:transparent; border:1px solid #3a3a3a; color:#e5e5e5; border-radius:8px; padding:10px 20px; cursor:pointer; transition:border-color .2s,background .2s; display:inline-block; text-decoration:none; }
+        .btn-ghost:hover { border-color:#f97316; background:rgba(249,115,22,.08); }
+        .btn-danger { background:#7f1d1d; color:#fca5a5; border:none; border-radius:8px; padding:8px 16px; cursor:pointer; transition:background .2s; display:inline-block; }
+        .btn-danger:hover { background:#991b1b; }
+        .card { background:#1a1a1a; border:1px solid #2e2e2e; border-radius:12px; }
+        .input-field { background:#242424; border:1px solid #3a3a3a; color:#e5e5e5; border-radius:8px; padding:10px 14px; width:100%; outline:none; transition:border-color .2s; font-family:'DM Sans',sans-serif; }
+        .input-field:focus { border-color:#f97316; }
+        select.input-field, select.select-touch {
+            min-height:48px; font-size:15px; padding:10px 14px; cursor:pointer;
+            appearance:auto; -webkit-appearance:menulist;
+        }
+        .input-label { font-size:13px; font-weight:500; color:#9ca3af; margin-bottom:6px; display:block; }
+        .badge { font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px; text-transform:uppercase; letter-spacing:.05em; }
+        .badge-PENDING    { background:#3a2800; color:#fb923c; }
+        .badge-CONFIRMED  { background:#002a1a; color:#34d399; }
+        .badge-PREPARING  { background:#1e1a00; color:#fbbf24; }
+        .badge-OUT_FOR_DELIVERY { background:#00162a; color:#60a5fa; }
+        .badge-DELIVERED  { background:#001a0f; color:#4ade80; }
+        .badge-CANCELLED  { background:#2a0000; color:#f87171; }
+        .badge-ASSIGNED   { background:#1a0a2a; color:#c084fc; }
+        .badge-PICKED_UP  { background:#1a1200; color:#fde68a; }
+        .badge-ON_THE_WAY { background:#00162a; color:#7dd3fc; }
+        .nav-link { color:#9ca3af; text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; padding:6px 0; }
+        .nav-link:hover, .nav-link.active { color:#f97316; }
+        .fade-in { animation:fadeIn .35s ease both; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        table { width:100%; border-collapse:collapse; }
+        th { font-size:12px; font-weight:600; color:#6b7280; text-transform:uppercase; letter-spacing:.06em; padding:10px 16px; text-align:left; border-bottom:1px solid #2e2e2e; }
+        td { padding:14px 16px; border-bottom:1px solid #1f1f1f; font-size:14px; color:#d1d5db; vertical-align:middle; }
+        tr:last-child td { border-bottom:none; }
+        tr:hover td { background:rgba(255,255,255,.02); }
+        /* Tailwind CDN preflight runs after this block; keep Leaflet tiles usable */
+        .leaflet-container img.leaflet-tile,
+        .leaflet-container .leaflet-marker-pane img,
+        .leaflet-container .leaflet-shadow-pane img,
+        .leaflet-container .leaflet-tile-container img {
+            max-width: none !important;
+            max-height: none !important;
+        }
+    </style>
+</head>
+</html>

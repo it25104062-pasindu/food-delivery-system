@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Confirm Order')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-customer :: nav}"></div>
+
+<main class="max-w-2xl mx-auto px-4 py-10 fade-in">
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:8px;">Confirm Your Order</h1>
+    <p style="color:#9ca3af; margin-bottom:28px;">Review your delivery details before placing.</p>
+
+    <div class="card p-8">
+        <form action="/customer/orders/place" method="post">
+            <div class="mb-6">
+                <label class="input-label">Delivery Address</label>
+                <textarea name="deliveryAddress" class="input-field" rows="3"
+                          th:placeholder="${session.userAddress != null ? session.userAddress : 'Enter your delivery address'}"
+                          required></textarea>
+                <p style="font-size:12px; color:#6b7280; margin-top:6px;">Make sure this is accurate — your rider will use this.</p>
+            </div>
+
+            <div style="background:#0f0f0f; border-radius:8px; padding:16px; margin-bottom:24px;">
+                <p style="font-size:13px; color:#6b7280; margin-bottom:4px;">Ordering as</p>
+                <p style="font-weight:600; color:#f5f5f5;" th:text="${session.userName}">Customer Name</p>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width:100%; padding:14px; font-size:16px;">
+                🛵 Place Order
+            </button>
+        </form>
+    </div>
+
+    <div style="text-align:center; margin-top:16px;">
+        <a href="/customer/cart" style="color:#6b7280; font-size:13px; text-decoration:none;">← Back to Cart</a>
+    </div>
+</main>
+</body>
+</html>

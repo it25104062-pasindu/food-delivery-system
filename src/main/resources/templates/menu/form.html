@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Menu Item')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-admin :: nav}"></div>
+
+<main class="max-w-2xl mx-auto px-4 py-10 fade-in">
+    <a href="/admin/menu" style="color:#9ca3af; font-size:13px; text-decoration:none; margin-bottom:20px; display:inline-block;">← Back to Menu</a>
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:28px;"
+        th:text="${item != null ? 'Edit Item' : 'Add Menu Item'}">Menu Item</h1>
+
+    <div class="card p-8">
+        <form th:action="${item != null ? '/admin/menu/edit/' + item.id : '/admin/menu/add'}" method="post">
+            <div class="grid grid-cols-1 gap-5">
+                <div>
+                    <label class="input-label">Item Name</label>
+                    <input type="text" name="name" class="input-field" th:value="${item != null ? item.name : ''}" placeholder="e.g. Spicy Chicken Burger" required/>
+                </div>
+                <div>
+                    <label class="input-label">Description</label>
+                    <textarea name="description" class="input-field" rows="2" th:text="${item != null ? item.description : ''}" placeholder="Short description of the item"></textarea>
+                </div>
+                <div>
+                    <label class="input-label">Image URL</label>
+                    <input type="url" name="imageUrl" class="input-field" th:value="${item != null ? item.imageUrl : ''}" placeholder="https://example.com/food-image.jpg" required/>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="input-label">Price (Rs.)</label>
+                        <input type="number" name="price" class="input-field" th:value="${item != null ? item.price : ''}" placeholder="350.00" step="0.01" min="0" required/>
+                    </div>
+                    <div>
+                        <label class="input-label">Category</label>
+                        <select name="category" class="input-field">
+                            <option value="Burgers"  th:selected="${item != null and item.category == 'Burgers'}">Burgers</option>
+                            <option value="Pizza"    th:selected="${item != null and item.category == 'Pizza'}">Pizza</option>
+                            <option value="Rice"     th:selected="${item != null and item.category == 'Rice'}">Rice</option>
+                            <option value="Drinks"   th:selected="${item != null and item.category == 'Drinks'}">Drinks</option>
+                            <option value="Desserts" th:selected="${item != null and item.category == 'Desserts'}">Desserts</option>
+                            <option value="Other"    th:selected="${item != null and item.category == 'Other'}">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div th:if="${item != null}" style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" name="available" id="available" th:checked="${item.available}"
+                           style="accent-color:#f97316; width:16px; height:16px;"/>
+                    <label for="available" style="font-size:14px; color:#d1d5db; cursor:pointer;">Item is available for ordering</label>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary mt-6" style="width:100%; padding:12px; font-size:15px;"
+                    th:text="${item != null ? 'Save Changes' : 'Add to Menu'}">Submit</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

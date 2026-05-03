@@ -1,0 +1,61 @@
+[ {
+  "id" : "o-001",
+  "customerId" : "u-cust-001",
+  "customerName" : "Nimal Perera",
+  "items" : [ {
+    "menuItemId" : "m-001",
+    "menuItemName" : "Chicken Kottu",
+    "unitPrice" : 1250.0,
+    "quantity" : 1,
+    "subtotal" : 1250.0
+  }, {
+    "menuItemId" : "m-003",
+    "menuItemName" : "Chocolate Milkshake",
+    "unitPrice" : 550.0,
+    "quantity" : 2,
+    "subtotal" : 1100.0
+  } ],
+  "totalAmount" : 2350.0,
+  "status" : "CONFIRMED",
+  "deliveryAddress" : "No 12, Galle Road, Colombo 03",
+  "createdAt" : "2026-05-01T11:30:00",
+  "assignedRiderId" : "r-001"
+}, {
+  "id" : "b74f9243-a594-4439-ad8e-cc76e31a8bc4",
+  "customerId" : "u-cust-001",
+  "customerName" : "Nimal Perera",
+  "items" : [ {
+    "menuItemId" : "m-002",
+    "menuItemName" : "Veg Fried Rice",
+    "unitPrice" : 980.0,
+    "quantity" : 2,
+    "subtotal" : 1960.0
+  }, {
+    "menuItemId" : "m-001",
+    "menuItemName" : "Chicken Kottu",
+    "unitPrice" : 1250.0,
+    "quantity" : 1,
+    "subtotal" : 1250.0
+  } ],
+  "totalAmount" : 3210.0,
+  "status" : "CONFIRMED",
+  "deliveryAddress" : "SLIIT Malabe",
+  "createdAt" : "2026-05-03T00:39:54.911864626",
+  "assignedRiderId" : "r-002"
+}, {
+  "id" : "26bfb308-355b-4bfd-8da5-d116fcd0a366",
+  "customerId" : "7c8e77f3-65c2-44d4-84cc-7b408768614d",
+  "customerName" : "Tharindi Jayawardena",
+  "items" : [ {
+    "menuItemId" : "0ddcf5e8-21d3-4d30-9824-f13262d53ae6",
+    "menuItemName" : "Special Kottu",
+    "unitPrice" : 1250.0,
+    "quantity" : 2,
+    "subtotal" : 2500.0
+  } ],
+  "totalAmount" : 2500.0,
+  "status" : "DELIVERED",
+  "deliveryAddress" : "42 Flower Road, Colombo 07",
+  "createdAt" : "2026-05-03T13:19:25.644688268",
+  "assignedRiderId" : "af5a6b4b-1d28-41a5-bc7e-31457b1977e3"
+} ]

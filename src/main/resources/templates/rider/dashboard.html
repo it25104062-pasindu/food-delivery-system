@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Rider Dashboard')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-rider :: nav}"></div>
+
+<main class="max-w-5xl mx-auto px-4 py-10 fade-in">
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:8px;">My Deliveries</h1>
+    <p style="color:#6b7280; margin-bottom:28px;">Manage your active and past deliveries</p>
+
+    <div th:if="${#lists.isEmpty(deliveries)}" class="text-center py-24">
+        <p style="font-size:48px; margin-bottom:12px;">🛵</p>
+        <p style="color:#6b7280;">No deliveries assigned yet. Stand by!</p>
+    </div>
+
+    <div th:each="delivery : ${deliveries}" class="card mb-4 overflow-hidden">
+        <div style="padding:16px 20px; display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+                <p style="font-size:12px; color:#6b7280; margin-bottom:4px;">Order ID</p>
+                <p style="font-family:monospace; font-size:13px; color:#9ca3af;" th:text="${#strings.abbreviate(delivery.orderId,22)}">id</p>
+                <p style="font-size:14px; color:#d1d5db; margin-top:8px;" th:text="${delivery.customerAddress}">Address</p>
+            </div>
+            <span class="badge" th:classappend="${'badge-' + delivery.status}" th:text="${delivery.status}">STATUS</span>
+        </div>
+
+        <!-- Status update form -->
+        <div style="padding:12px 20px; border-top:1px solid #1f1f1f; background:#151515; display:flex; gap:8px; flex-wrap:wrap;">
+            <form th:action="@{/rider/delivery/update/{id}(id=${delivery.id})}" method="post" style="display:flex; gap:6px; flex:1; min-width:280px;">
+                <select name="status" class="input-field" style="flex:1; min-width:200px;"
+                        th:with="rawSt=${delivery.status != null ? delivery.status : 'ASSIGNED'},curDelStatus=${#strings.replace(#strings.trim(rawSt), ' ', '_')}">
+                    <option value="ASSIGNED" th:selected="${#strings.equals('ASSIGNED', curDelStatus)}">Assigned</option>
+                    <option value="PICKED_UP" th:selected="${#strings.equals('PICKED_UP', curDelStatus)}">Picked up</option>
+                    <option value="ON_THE_WAY" th:selected="${#strings.equals('ON_THE_WAY', curDelStatus)}">On the way</option>
+                    <option value="DELIVERED" th:selected="${#strings.equals('DELIVERED', curDelStatus)}">Delivered</option>
+                </select>
+                <input type="hidden" name="latitude"  value="6.9271"/>
+                <input type="hidden" name="longitude" value="79.8612"/>
+                <button type="submit" class="btn-primary" style="padding:6px 14px; font-size:13px;">Update</button>
+            </form>
+
+            <a th:href="@{/rider/delivery/{id}(id=${delivery.orderId})}" class="btn-ghost" style="padding:6px 14px; font-size:13px;">Map View</a>
+
+            <form th:if="${delivery.status == 'DELIVERED'}" th:action="@{/rider/delivery/delete/{id}(id=${delivery.id})}" method="post" style="margin:0;">
+                <button type="submit" class="btn-danger" style="padding:6px 12px; font-size:13px;">Archive</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

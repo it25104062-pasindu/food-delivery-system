@@ -1,0 +1,91 @@
+BiteBridge — main functions
+
+
+1) User management and auth
+CRUD:
+Create — register a new customer.
+Read — check login; show profile.
+Update — change profile details.
+Delete — remove account; logout clears session.
+
+OOP:
+Encapsulation — user fields and passwords live inside User objects, not scattered.
+Inheritance — user storage subclasses the shared JSON repository base.
+Polymorphism — same repository-style operations reused for User as for other saved types.
+Abstraction — expose register, login, profile as named operations, hide storage internals.
+
+
+2) Menu management
+CRUD:
+Create — add a new menu item.
+Read — list items; filter / show available ones.
+Update — edit item details or availability.
+Delete — remove an item.
+
+OOP:
+Encapsulation — each dish is a MenuItem object with getters/setters.
+Inheritance — menu repository subclasses the generic base repository.
+Polymorphism — one persistence pattern specialised for MenuItem.
+Abstraction — work with menu items and categories, not raw file rows.
+
+
+3) Customer browsing and cart management
+CRUD:
+Create — add dish to cart (new cart if needed).
+Read — show cart and summaries.
+Update — change line quantities.
+Delete — remove a line from the cart.
+
+OOP:
+Encapsulation — Cart and CartItem hide basket data as objects.
+Inheritance — cart repository extends the same base repository.
+Polymorphism — shared save/find/delete behaviour specialised for Cart.
+Abstraction — add to cart / view cart hides how data is persisted.
+
+
+4) Order placement and tracking
+CRUD:
+Create — place order from cart and address.
+Read — order list; open one order to track.
+Update — cancel (customer); change status (admin).
+Delete — remove order (admin).
+
+OOP:
+Encapsulation — Order bundles items, totals, status, address together.
+Inheritance — order repository subclasses the generic base repository.
+Polymorphism — persistence pattern reused for Order like other aggregates.
+Abstraction — place / history / track instead of manual record wiring.
+
+
+5) Rider dashboard and delivery updates
+CRUD:
+Create — delivery record when rider is assigned.
+Read — rider’s deliveries; open one detail.
+Update — status and map location fields.
+Delete — archive completed delivery.
+
+OOP:
+Encapsulation — Delivery groups status, rider, location in one model.
+Inheritance — delivery (and rider) repositories extend the base repository class.
+Polymorphism — generic repository workflow applied to Delivery as its own type.
+Abstraction — screen actions like “my jobs” map to simpler service calls.
+
+
+6) Admin order management and rider management
+CRUD orders:
+Create — assign rider creates / links delivery.
+Read — view all orders.
+Update — change order status; assign rider.
+Delete — delete an order.
+
+CRUD riders:
+Create — add rider.
+Read — list riders; edit form.
+Update — save rider edits.
+Delete — remove rider.
+
+OOP:
+Encapsulation — orders, riders, and deliveries handled as distinct models.
+Inheritance — order and rider stores both subclass the generic base repository.
+Polymorphism — same overall repository pattern specialised per entity type.
+Abstraction — admin tasks (lists, assign, edit rider) shield low-level persistence.

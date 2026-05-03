@@ -1,0 +1,31 @@
+[ {
+  "id" : "d-001",
+  "orderId" : "o-001",
+  "riderId" : "r-001",
+  "riderName" : "Kasun Rider",
+  "status" : "ON_THE_WAY",
+  "customerAddress" : "No 12, Galle Road, Colombo 03",
+  "latitude" : 6.9168,
+  "longitude" : 79.8631,
+  "updatedAt" : "2026-05-01T11:45:00"
+}, {
+  "id" : "f4ce84cb-77a8-458d-a2e6-66b3d47b23b5",
+  "orderId" : "b74f9243-a594-4439-ad8e-cc76e31a8bc4",
+  "riderId" : "r-002",
+  "riderName" : "Malith Fernando",
+  "status" : "ASSIGNED",
+  "customerAddress" : "SLIIT Malabe",
+  "latitude" : 6.9271,
+  "longitude" : 79.8612,
+  "updatedAt" : "2026-05-03T00:40:55.674437224"
+}, {
+  "id" : "b1170146-6faa-4707-a2fb-686b7aef7e11",
+  "orderId" : "26bfb308-355b-4bfd-8da5-d116fcd0a366",
+  "riderId" : "af5a6b4b-1d28-41a5-bc7e-31457b1977e3",
+  "riderName" : "Duminda Wickramasinghe",
+  "status" : "DELIVERED",
+  "customerAddress" : "42 Flower Road, Colombo 07",
+  "latitude" : 6.9271,
+  "longitude" : 79.8612,
+  "updatedAt" : "2026-05-03T13:27:54.833973858"
+} ]

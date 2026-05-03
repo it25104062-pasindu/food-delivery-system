@@ -1,0 +1,25 @@
+[ {
+  "id" : "m-002",
+  "name" : "Veg Fried Rice",
+  "description" : "Basmati fried rice with mixed vegetables",
+  "imageUrl" : "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80",
+  "price" : 980.0,
+  "category" : "Main",
+  "available" : true
+}, {
+  "id" : "m-003",
+  "name" : "Chocolate Milkshake",
+  "description" : "Cold milkshake topped with chocolate syrup",
+  "imageUrl" : "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=1200&q=80",
+  "price" : 550.0,
+  "category" : "Beverage",
+  "available" : true
+}, {
+  "id" : "0ddcf5e8-21d3-4d30-9824-f13262d53ae6",
+  "name" : "Special Kottu",
+  "description" : "Demo dish for client handover – mixed veg.\r\n",
+  "imageUrl" : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Chicken_Kottu.jpg/250px-Chicken_Kottu.jpg",
+  "price" : 1250.0,
+  "category" : "Other",
+  "available" : true
+} ]

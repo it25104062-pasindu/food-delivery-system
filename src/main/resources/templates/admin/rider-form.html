@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Edit Rider')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-admin :: nav}"></div>
+
+<main class="max-w-xl mx-auto px-4 py-10 fade-in">
+    <a href="/admin/riders" style="color:#9ca3af; font-size:13px; text-decoration:none; margin-bottom:20px; display:inline-block;">← Back to Riders</a>
+    <h1 style="font-family:'Playfair Display',serif; font-size:28px; color:#f5f5f5; margin-bottom:24px;">Edit Rider</h1>
+
+    <div class="card p-8">
+        <form th:action="@{/admin/riders/edit/{id}(id=${rider.id})}" method="post">
+            <div class="grid grid-cols-1 gap-5">
+                <div>
+                    <label class="input-label">Full Name</label>
+                    <input type="text" name="name" class="input-field" th:value="${rider.name}" required/>
+                </div>
+                <div>
+                    <label class="input-label">Email</label>
+                    <input type="email" name="email" class="input-field" th:value="${rider.email}" required/>
+                </div>
+                <div>
+                    <label class="input-label">Phone</label>
+                    <input type="text" name="phone" class="input-field" th:value="${rider.phone}"/>
+                </div>
+                <div>
+                    <label class="input-label">Vehicle Number</label>
+                    <input type="text" name="vehicleNumber" class="input-field" th:value="${rider.vehicleNumber}"/>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" name="available" id="available" th:checked="${rider.available}"
+                           style="accent-color:#f97316; width:16px; height:16px;"/>
+                    <label for="available" style="font-size:14px; color:#d1d5db; cursor:pointer;">Available for deliveries</label>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary mt-6" style="width:100%; padding:12px;">Save Changes</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

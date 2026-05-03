@@ -1,0 +1,38 @@
+[
+  {
+    "id": "u-admin-001",
+    "name": "Admin User",
+    "email": "admin@bitebridge.com",
+    "password": "admin123",
+    "role": "ADMIN",
+    "phone": "0710000001",
+    "address": "BiteBridge HQ, Colombo"
+  },
+  {
+    "id": "u-cust-001",
+    "name": "Nimal Perera",
+    "email": "nimal@example.com",
+    "password": "pass123",
+    "role": "CUSTOMER",
+    "phone": "0710000002",
+    "address": "No 12, Galle Road, Colombo 03"
+  },
+  {
+    "id": "u-rider-001",
+    "name": "Kasun Rider",
+    "email": "kasun.rider@example.com",
+    "password": "rider123",
+    "role": "RIDER",
+    "phone": "0710000003",
+    "address": "No 44, Kandy Road, Kelaniya"
+  },
+  {
+    "id": "7c8e77f3-65c2-44d4-84cc-7b408768614d",
+    "name": "Tharindi Jayawardena",
+    "email": "tharindi@gmail.com",
+    "password": "pass123",
+    "role": "CUSTOMER",
+    "phone": "0771112233",
+    "address": "42 Flower Road, Colombo 07\r\n"
+  }
+]

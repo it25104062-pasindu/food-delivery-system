@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('All Orders')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-admin :: nav}"></div>
+
+<main class="max-w-7xl mx-auto px-4 py-10 fade-in">
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:8px;">All Orders</h1>
+    <p style="color:#9ca3af; font-size:14px; max-width:52rem; margin-bottom:16px; line-height:1.5;">
+        After you assign a rider, the rider’s delivery updates advance this order automatically:
+        <strong style="color:#d1d5db;">Picked up</strong> or <strong style="color:#d1d5db;">On the way</strong> → order becomes <strong style="color:#f97316;">OUT_FOR_DELIVERY</strong>;
+        <strong style="color:#d1d5db;">Delivered</strong> → <strong style="color:#34d399;">DELIVERED</strong>.
+        You can still override status here if needed (e.g. kitchen <strong style="color:#d1d5db;">PREPARING</strong> before the rider moves).
+    </p>
+
+    <div th:if="${error}" style="background:#2a1000; border:1px solid #9a3412; border-radius:8px; padding:12px 16px; color:#fdba74; margin-bottom:16px; font-size:14px;"
+         th:text="${error}"></div>
+    <div th:if="${success}" style="background:#002a1a; border:1px solid #065f46; border-radius:8px; padding:12px 16px; color:#6ee7b7; margin-bottom:16px; font-size:14px;"
+         th:text="${success}"></div>
+
+    <div th:if="${#lists.isEmpty(riders)}" class="card p-4 mb-4" style="border-color:#7c2d12;">
+        <p style="color:#fdba74; font-size:14px; margin:0;">
+            No riders are <strong style="color:#fff;">available</strong> right now. Go to <a href="/admin/riders" style="color:#f97316;">Manage Riders</a>—add riders or edit one and enable <strong style="color:#fff;">Available</strong>—then assignments will show in the dropdown below.
+        </p>
+    </div>
+
+    <div class="card overflow-x-auto overflow-hidden">
+        <table style="min-width:720px;">
+            <thead>
+            <tr><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Rider</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(orders)}">
+                <td colspan="6" style="text-align:center; color:#6b7280; padding:40px;">No orders yet.</td>
+            </tr>
+            <tr th:each="order : ${orders}"
+                th:with="canAssign=${#strings.isEmpty(order.assignedRiderId) and order.status != 'DELIVERED' and order.status != 'CANCELLED'}">
+                <td>
+                    <p style="font-weight:500; color:#f5f5f5;" th:text="${order.customerName}">Name</p>
+                    <p style="font-size:12px; color:#6b7280;" th:text="${#strings.abbreviate(order.deliveryAddress,36)}">Address</p>
+                    <p style="font-size:11px; color:#525252; font-family:monospace; margin-top:4px;" th:text="${#strings.abbreviate(order.id, 28)}">id</p>
+                </td>
+                <td style="color:#9ca3af; font-size:13px;" th:text="${order.items.size() + ' item(s)'}">0</td>
+                <td style="color:#f97316; font-weight:600;" th:text="${'Rs. ' + #numbers.formatDecimal(order.totalAmount,1,2)}">0</td>
+                <td><span class="badge" th:classappend="${'badge-' + order.status}" th:text="${order.status}">S</span></td>
+                <td style="min-width:220px;">
+                    <form th:if="${canAssign}" th:action="@{/admin/orders/assign}" method="post"
+                          style="display:flex; flex-direction:column; gap:8px; align-items:stretch;">
+                        <input type="hidden" name="orderId" th:value="${order.id}"/>
+                        <select name="riderId" class="input-field" style="min-width:200px; max-width:320px;" required>
+                            <option value="" selected>— Select rider —</option>
+                            <option th:each="rider : ${riders}" th:value="${rider.id}"
+                                    th:text="${rider.name}">Rider</option>
+                        </select>
+                        <button type="submit" class="btn-primary" style="padding:10px 14px; font-size:14px;">Assign rider</button>
+                    </form>
+                    <div th:if="${not canAssign and not #strings.isEmpty(order.assignedRiderId)}" style="font-size:15px;">
+                        <span style="color:#c084fc; font-weight:600;"
+                              th:text="${#maps.containsKey(riderNames, order.assignedRiderId) ? riderNames.get(order.assignedRiderId) : 'Rider'}">Name</span>
+                        <span style="display:block; font-size:11px; color:#6b7280; margin-top:4px;">Assigned</span>
+                    </div>
+                    <span th:if="${not canAssign and order.status == 'CANCELLED'}" style="color:#6b7280; font-size:13px;">—</span>
+                </td>
+                <td style="min-width:260px;">
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <form th:action="@{/admin/orders/status/{id}(id=${order.id})}" method="post" style="display:flex; flex-direction:column; gap:6px; margin:0;">
+                            <select name="status" class="input-field"
+                                    th:with="rawOs=${order.status != null ? order.status : 'PENDING'},curOrderStatus=${#strings.replace(#strings.trim(rawOs), ' ', '_')}">
+                                <option th:each="opt : ${ {'PENDING','CONFIRMED','PREPARING','OUT_FOR_DELIVERY','DELIVERED','CANCELLED'} }"
+                                        th:value="${opt}"
+                                        th:selected="${#strings.equals(opt, curOrderStatus)}"
+                                        th:text="${opt}">STATUS</option>
+                            </select>
+                            <button type="submit" class="btn-ghost" style="padding:10px 12px; font-size:14px;">Update status</button>
+                        </form>
+                        <form th:action="@{/admin/orders/delete/{id}(id=${order.id})}" method="post" style="margin:0;">
+                            <button type="submit" class="btn-danger" style="padding:10px 12px; font-size:13px; width:100%;"
+                                    onclick="return confirm('Delete this order permanently?')">Delete order</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

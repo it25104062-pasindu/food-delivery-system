@@ -1,0 +1,22 @@
+[ {
+  "id" : "r-001",
+  "name" : "Kasun Rider",
+  "email" : "kasun.rider@example.com",
+  "phone" : "0710000003",
+  "vehicleNumber" : "WP CAB-1234",
+  "available" : false
+}, {
+  "id" : "r-002",
+  "name" : "Malith Fernando",
+  "email" : "malith.rider@example.com",
+  "phone" : "0710000004",
+  "vehicleNumber" : "WP BAF-4521",
+  "available" : false
+}, {
+  "id" : "af5a6b4b-1d28-41a5-bc7e-31457b1977e3",
+  "name" : "Duminda Wickramasinghe",
+  "email" : "duminda.rider@gmail.com",
+  "phone" : "0775566778",
+  "vehicleNumber" : "WP CAB-7788",
+  "available" : true
+} ]

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Riders')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-admin :: nav}"></div>
+
+<main class="max-w-5xl mx-auto px-4 py-10 fade-in">
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:16px;">Rider Management</h1>
+    <p style="color:#6b7280; font-size:13px; margin-bottom:20px;">Riders are stored in <strong style="color:#9ca3af;">riders.json</strong> only. Customer accounts use <strong style="color:#9ca3af;">users.json</strong>—do not duplicate rider emails as customer sign-ups.</p>
+
+    <div th:if="${error}" style="background:#2a1000; border:1px solid #9a3412; border-radius:8px; padding:12px 16px; color:#fdba74; margin-bottom:16px; font-size:14px;"
+         th:text="${error}"></div>
+    <div th:if="${success}" style="background:#002a1a; border:1px solid #065f46; border-radius:8px; padding:12px 16px; color:#6ee7b7; margin-bottom:16px; font-size:14px;"
+         th:text="${success}"></div>
+
+    <!-- Add rider form -->
+    <div class="card p-6 mb-8">
+        <h3 style="font-size:15px; font-weight:600; color:#9ca3af; margin-bottom:16px; text-transform:uppercase; letter-spacing:.06em;">Add New Rider</h3>
+        <form action="/admin/riders/add" method="post" style="display:flex; gap:10px; flex-wrap:wrap;">
+            <input type="text"  name="name"          class="input-field" placeholder="Full Name"      style="flex:1; min-width:160px;" required/>
+            <input type="email" name="email"         class="input-field" placeholder="Email Address"  style="flex:1; min-width:200px;" required/>
+            <input type="text"  name="phone"         class="input-field" placeholder="Phone Number"   style="flex:1; min-width:140px;"/>
+            <input type="text"  name="vehicleNumber" class="input-field" placeholder="Vehicle No."    style="flex:1; min-width:120px;"/>
+            <button type="submit" class="btn-primary" style="white-space:nowrap;">+ Add Rider</button>
+        </form>
+    </div>
+
+    <!-- Riders table -->
+    <div class="card overflow-hidden">
+        <table>
+            <thead>
+            <tr><th>Name</th><th>Email</th><th>Phone</th><th>Vehicle</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(riders)}">
+                <td colspan="6" style="text-align:center; color:#6b7280; padding:32px;">No riders added yet.</td>
+            </tr>
+            <tr th:each="rider : ${riders}">
+                <td style="font-weight:500; color:#f5f5f5;" th:text="${rider.name}">Name</td>
+                <td th:text="${rider.email}">Email</td>
+                <td th:text="${rider.phone}">Phone</td>
+                <td><span style="font-family:monospace; font-size:13px; color:#9ca3af;" th:text="${rider.vehicleNumber}">VH-0000</span></td>
+                <td>
+                    <span th:if="${rider.available}"  style="background:#002a1a; color:#34d399; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px;">Available</span>
+                    <span th:unless="${rider.available}" style="background:#2a0000; color:#f87171; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px;">On Delivery</span>
+                </td>
+                <td>
+                    <div style="display:flex; gap:6px;">
+                        <a th:href="@{/admin/riders/edit/{id}(id=${rider.id})}" class="btn-ghost" style="padding:5px 12px; font-size:12px;">Edit</a>
+                        <form th:action="@{/admin/riders/delete/{id}(id=${rider.id})}" method="post" style="margin:0;">
+                            <button type="submit" class="btn-danger" style="padding:5px 12px; font-size:12px;"
+                                    onclick="return confirm('Remove rider?')">Remove</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

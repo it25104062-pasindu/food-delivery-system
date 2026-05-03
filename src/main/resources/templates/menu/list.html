@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('Manage Menu')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-admin :: nav}"></div>
+
+<main class="max-w-7xl mx-auto px-4 py-10 fade-in">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px;">
+        <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5;">Menu Items</h1>
+        <a href="/admin/menu/add" class="btn-primary">+ Add Item</a>
+    </div>
+
+    <div class="card overflow-hidden">
+        <table>
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(items)}">
+                <td colspan="6" style="text-align:center; color:#6b7280; padding:40px;">No menu items yet.</td>
+            </tr>
+            <tr th:each="item : ${items}">
+                <td>
+                    <img th:src="${item.imageUrl}"
+                         th:alt="${item.name}"
+                         style="width:64px; height:48px; object-fit:cover; border-radius:8px; border:1px solid #2e2e2e;"
+                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495195134817-aeb325a55b65?auto=format&fit=crop&w=300&q=80';"/>
+                </td>
+                <td>
+                    <p style="font-weight:500; color:#f5f5f5;" th:text="${item.name}">Name</p>
+                    <p style="font-size:12px; color:#6b7280; margin-top:2px;" th:text="${#strings.abbreviate(item.description, 50)}">Desc</p>
+                </td>
+                <td><span style="background:#242424; color:#9ca3af; font-size:12px; padding:3px 8px; border-radius:4px;" th:text="${item.category}">Cat</span></td>
+                <td style="color:#f97316; font-weight:600;" th:text="${'Rs. ' + #numbers.formatDecimal(item.price,1,2)}">0.00</td>
+                <td>
+                    <span th:if="${item.available}"  style="background:#002a1a; color:#34d399; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px;">Active</span>
+                    <span th:unless="${item.available}" style="background:#2a0000; color:#f87171; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px;">Hidden</span>
+                </td>
+                <td>
+                    <div style="display:flex; gap:6px;">
+                        <a th:href="@{/admin/menu/edit/{id}(id=${item.id})}" class="btn-ghost" style="padding:5px 12px; font-size:12px;">Edit</a>
+                        <form th:action="@{/admin/menu/delete/{id}(id=${item.id})}" method="post" style="margin:0;">
+                            <button type="submit" class="btn-danger" style="padding:5px 12px; font-size:12px;"
+                                    onclick="return confirm('Delete this item?')">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

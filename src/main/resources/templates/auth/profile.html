@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('My Profile')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-customer :: nav}"></div>
+
+<main class="max-w-2xl mx-auto px-4 py-10 fade-in">
+    <h2 style="font-family:'Playfair Display',serif; font-size:28px; color:#f5f5f5; margin-bottom:24px;">My Profile</h2>
+
+    <div class="card p-8 mb-6">
+        <form action="/profile/update" method="post">
+            <div class="grid grid-cols-1 gap-5">
+                <div>
+                    <label class="input-label">Full Name</label>
+                    <input type="text" name="name" class="input-field" th:value="${user.name}" required/>
+                </div>
+                <div>
+                    <label class="input-label">Email</label>
+                    <input type="email" class="input-field" th:value="${user.email}" disabled
+                           style="opacity:.5; cursor:not-allowed;"/>
+                </div>
+                <div>
+                    <label class="input-label">Phone</label>
+                    <input type="text" name="phone" class="input-field" th:value="${user.phone}"/>
+                </div>
+                <div>
+                    <label class="input-label">Delivery Address</label>
+                    <textarea name="address" class="input-field" rows="2" th:text="${user.address}"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary mt-6" style="width:100%; padding:12px;">
+                Save Changes
+            </button>
+        </form>
+    </div>
+
+    <!-- Danger zone -->
+    <div class="card p-6" style="border-color:#7f1d1d;">
+        <h3 style="color:#f87171; font-weight:600; margin-bottom:8px;">Danger Zone</h3>
+        <p style="font-size:13px; color:#6b7280; margin-bottom:16px;">Permanently delete your account. This cannot be undone.</p>
+        <form action="/profile/delete" method="post"
+              onsubmit="return confirm('Are you sure? This will permanently delete your account.')">
+            <button type="submit" class="btn-danger">Delete My Account</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
