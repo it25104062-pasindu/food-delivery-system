@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head('My Cart')}"></head>
+<body style="background:#0f0f0f;">
+<div th:replace="~{layout/nav-customer :: nav}"></div>
+
+<main class="max-w-4xl mx-auto px-4 py-10 fade-in">
+    <h1 style="font-family:'Playfair Display',serif; font-size:32px; color:#f5f5f5; margin-bottom:28px;">My Cart</h1>
+
+    <!-- Empty cart -->
+    <div th:if="${cart == null or #lists.isEmpty(cart.items)}" class="text-center py-24">
+        <p style="font-size:56px; margin-bottom:12px;">🛒</p>
+        <h3 style="font-size:20px; color:#6b7280; margin-bottom:16px;">Your cart is empty</h3>
+        <a href="/customer/menu" class="btn-primary">Browse Menu</a>
+    </div>
+
+    <!-- Cart with items -->
+    <div th:if="${cart != null and !#lists.isEmpty(cart.items)}">
+        <div class="card mb-6">
+            <!-- Cart items -->
+            <div th:each="item, iter : ${cart.items}"
+                 style="padding:16px 20px; border-bottom:1px solid #1f1f1f; display:flex; align-items:center; gap:16px;"
+                 th:style="${iter.last ? 'padding:16px 20px; display:flex; align-items:center; gap:16px;' : 'padding:16px 20px; border-bottom:1px solid #1f1f1f; display:flex; align-items:center; gap:16px;'}">
+
+                <div style="flex:1;">
+                    <p style="font-weight:600; color:#f5f5f5; font-size:15px;" th:text="${item.menuItemName}">Item</p>
+                    <p style="font-size:13px; color:#9ca3af; margin-top:2px;" th:text="${'Rs. ' + #numbers.formatDecimal(item.unitPrice,1,2) + ' each'}">Price</p>
+                </div>
+
+                <!-- Update qty -->
+                <form action="/customer/cart/update" method="post" style="display:flex; align-items:center; gap:6px;">
+                    <input type="hidden" name="menuItemId" th:value="${item.menuItemId}"/>
+                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" max="10"
+                           style="background:#242424; border:1px solid #3a3a3a; color:#e5e5e5; border-radius:6px; padding:5px 8px; width:60px; text-align:center;"/>
+                    <button type="submit" class="btn-ghost" style="padding:5px 12px; font-size:12px;">Update</button>
+                </form>
+
+                <p style="font-weight:700; color:#f97316; font-size:15px; min-width:80px; text-align:right;"
+                   th:text="${'Rs. ' + #numbers.formatDecimal(item.subtotal,1,2)}">Rs. 0.00</p>
+
+                <!-- Remove -->
+                <form action="/customer/cart/remove" method="post">
+                    <input type="hidden" name="menuItemId" th:value="${item.menuItemId}"/>
+                    <button type="submit" style="background:none; border:none; color:#6b7280; cursor:pointer; font-size:18px; padding:4px; transition:color .2s;"
+                            onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='#6b7280'">✕</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Order summary -->
+        <div class="card p-6">
+            <h3 style="font-size:16px; font-weight:600; color:#9ca3af; margin-bottom:16px; text-transform:uppercase; letter-spacing:.06em;">Order Summary</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span style="color:#9ca3af;">Subtotal</span>
+                <span th:text="${'Rs. ' + #numbers.formatDecimal(cart.total,1,2)}" style="color:#f5f5f5; font-weight:600;">Rs. 0.00</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+                <span style="color:#9ca3af;">Delivery Fee</span>
+                <span style="color:#34d399; font-weight:600;">Free</span>
+            </div>
+            <div style="height:1px; background:#2e2e2e; margin-bottom:16px;"></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:24px;">
+                <span style="font-size:17px; font-weight:700; color:#f5f5f5;">Total</span>
+                <span style="font-size:20px; font-weight:700; color:#f97316;" th:text="${'Rs. ' + #numbers.formatDecimal(cart.total,1,2)}">Rs. 0.00</span>
+            </div>
+            <a href="/customer/orders/confirm" class="btn-primary" style="display:block; width:100%; text-align:center; padding:13px; font-size:15px;">
+                Proceed to Checkout →
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
