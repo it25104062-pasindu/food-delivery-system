@@ -1,100 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{layout/base :: head('Delivery Detail')}"></head>
-<body style="background:#0f0f0f;">
-<div th:replace="~{layout/nav-rider :: nav}"></div>
+  <head th:replace="~{layout/base :: head('Delivery Detail')}"></head>
+  <body style="background: #0f0f0f">
+    <div th:replace="~{layout/nav-rider :: nav}"></div>
 
-<main class="max-w-3xl mx-auto px-4 py-10 fade-in">
-    <a href="/rider/dashboard" style="color:#9ca3af; font-size:13px; text-decoration:none; margin-bottom:20px; display:inline-block;">← Back to Dashboard</a>
-    <h1 style="font-family:'Playfair Display',serif; font-size:28px; color:#f5f5f5; margin-bottom:24px;">Delivery Detail</h1>
+    <main class="max-w-3xl mx-auto px-4 py-10 fade-in">
+      <a
+        href="/rider/dashboard"
+        style="
+          color: #9ca3af;
+          font-size: 13px;
+          text-decoration: none;
+          margin-bottom: 20px;
+          display: inline-block;
+        "
+        >← Back to Dashboard</a
+      >
+      <h1
+        style="
+          font-family: &quot;Playfair Display&quot;, serif;
+          font-size: 28px;
+          color: #f5f5f5;
+          margin-bottom: 24px;
+        "
+      >
+        Delivery Detail
+      </h1>
 
-    <div th:if="${delivery == null}" class="card p-8 text-center">
-        <p style="color:#6b7280;">Delivery not found or not yet assigned.</p>
-    </div>
+      <div th:if="${delivery == null}" class="card p-8 text-center">
+        <p style="color: #6b7280">Delivery not found or not yet assigned</p>
+      </div>
 
-    <div th:if="${delivery != null}">
+      <div th:if="${delivery != null}">
         <div class="card p-6 mb-6">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <p class="input-label">Order ID</p>
-                    <p style="font-family:monospace; font-size:13px; color:#9ca3af;" th:text="${delivery.orderId}">id</p>
-                </div>
-                <div>
-                    <p class="input-label">Status</p>
-                    <span class="badge" th:classappend="${'badge-' + delivery.status}" th:text="${delivery.status}">S</span>
-                </div>
-                <div>
-                    <p class="input-label">Rider</p>
-                    <p style="color:#f5f5f5; font-weight:500;" th:text="${delivery.riderName}">Name</p>
-                </div>
-                <div>
-                    <p class="input-label">Last Updated</p>
-                    <p style="font-size:13px; color:#9ca3af;" th:text="${#strings.abbreviate(delivery.updatedAt,19)}">time</p>
-                </div>
-                <div style="grid-column:span 2;">
-                    <p class="input-label">Delivery Address</p>
-                    <p style="color:#d1d5db;" th:text="${delivery.customerAddress}">Address</p>
-                </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="input-label">Order ID</p>
+              <p
+                style="font-family: monospace; font-size: 13px; color: #9ca3af"
+                th:text="${delivery.orderId}"
+              >
+                id
+              </p>
             </div>
+            <div>
+              <p class="input-label">Status</p>
+              <span
+                class="badge"
+                th:classappend="${'badge-' + delivery.status}"
+                th:text="${delivery.status}"
+                >S</span
+              >
+            </div>
+            <div>
+              <p class="input-label">Rider</p>
+              <p
+                style="color: #f5f5f5; font-weight: 500"
+                th:text="${delivery.riderName}"
+              >
+                Name
+              </p>
+            </div>
+            <div>
+              <p class="input-label">Last Updated</p>
+              <p
+                style="font-size: 13px; color: #9ca3af"
+                th:text="${#strings.abbreviate(delivery.updatedAt,19)}"
+              >
+                time
+              </p>
+            </div>
+            <div style="grid-column: span 2">
+              <p class="input-label">Delivery Address</p>
+              <p style="color: #d1d5db" th:text="${delivery.customerAddress}">
+                Address
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- Map -->
         <div class="card p-4">
-            <p style="font-size:13px; color:#9ca3af; margin-bottom:12px; font-weight:500;">📍 Live Rider Map</p>
-            <div id="map" style="height:300px; border-radius:8px; overflow:hidden;"></div>
-            <div style="display:flex; gap:16px; margin-top:12px; flex-wrap:wrap;">
-                <p style="font-size:12px; color:#9ca3af;">Lat: <span style="color:#d1d5db;" th:text="${#numbers.formatDecimal(delivery.latitude,1,4)}">6.9271</span></p>
-                <p style="font-size:12px; color:#9ca3af;">Lng: <span style="color:#d1d5db;" th:text="${#numbers.formatDecimal(delivery.longitude,1,4)}">79.8612</span></p>
-            </div>
+          <p
+            style="
+              font-size: 13px;
+              color: #9ca3af;
+              margin-bottom: 12px;
+              font-weight: 500;
+            "
+          >
+            📍 Live Rider Map
+          </p>
+          <div
+            id="map"
+            style="height: 300px; border-radius: 8px; overflow: hidden"
+          ></div>
+          <div
+            style="display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap"
+          >
+            <p style="font-size: 12px; color: #9ca3af">
+              Lat:
+              <span
+                style="color: #d1d5db"
+                th:text="${#numbers.formatDecimal(delivery.latitude,1,4)}"
+                >6.9271</span
+              >
+            </p>
+            <p style="font-size: 12px; color: #9ca3af">
+              Lng:
+              <span
+                style="color: #d1d5db"
+                th:text="${#numbers.formatDecimal(delivery.longitude,1,4)}"
+                >79.8612</span
+              >
+            </p>
+          </div>
         </div>
-    </div>
-</main>
+      </div>
+    </main>
 
-<script th:src="@{/webjars/leaflet/1.9.4/dist/leaflet.js}" src="/webjars/leaflet/1.9.4/dist/leaflet.js"></script>
-<script th:if="${delivery != null}" th:inline="javascript">
-    (function () {
+    <script
+      th:src="@{/webjars/leaflet/1.9.4/dist/leaflet.js}"
+      src="/webjars/leaflet/1.9.4/dist/leaflet.js"
+    ></script>
+    <script th:if="${delivery != null}" th:inline="javascript">
+      (function () {
         const lat = Number(/*[[${delivery.latitude}]]*/ 6.9271);
         const lng = Number(/*[[${delivery.longitude}]]*/ 79.8612);
         if (!window.L || !Number.isFinite(lat) || !Number.isFinite(lng)) return;
 
         function boot() {
-            const map = L.map('map').setView([lat, lng], 14);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap &copy; CARTO',
-                maxZoom: 19,
-                subdomains: 'abcd'
-            }).addTo(map);
+          const map = L.map("map").setView([lat, lng], 14);
+          L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            {
+              attribution: "&copy; OpenStreetMap &copy; CARTO",
+              maxZoom: 19,
+              subdomains: "abcd",
+            },
+          ).addTo(map);
 
-            const riderIcon = L.divIcon({
-                html: '<div style="width:14px;height:14px;background:#f97316;border:2px solid #fff;border-radius:999px;box-shadow:0 0 0 8px rgba(249,115,22,.18);"></div>',
-                className: '',
-                iconSize: [14, 14],
-                iconAnchor: [7, 7]
-            });
+          const riderIcon = L.divIcon({
+            html: '<div style="width:14px;height:14px;background:#f97316;border:2px solid #fff;border-radius:999px;box-shadow:0 0 0 8px rgba(249,115,22,.18);"></div>',
+            className: "",
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+          });
 
-            L.marker([lat, lng], { icon: riderIcon }).addTo(map)
-                .bindPopup('🛵 Your current shared location')
-                .openPopup();
+          L.marker([lat, lng], { icon: riderIcon })
+            .addTo(map)
+            .bindPopup("🛵 Your current shared location")
+            .openPopup();
 
-            L.circle([lat, lng], {
-                radius: 90,
-                color: '#fb923c',
-                fillColor: '#f97316',
-                fillOpacity: 0.12,
-                weight: 1
-            }).addTo(map);
+          L.circle([lat, lng], {
+            radius: 90,
+            color: "#fb923c",
+            fillColor: "#f97316",
+            fillOpacity: 0.12,
+            weight: 1,
+          }).addTo(map);
 
-            requestAnimationFrame(function () {
-                map.invalidateSize();
-            });
+          requestAnimationFrame(function () {
+            map.invalidateSize();
+          });
         }
 
-        if (document.readyState === 'complete') {
-            boot();
+        if (document.readyState === "complete") {
+          boot();
         } else {
-            window.addEventListener('load', boot);
+          window.addEventListener("load", boot);
         }
-    })();
-</script>
-</body>
+      })();
+    </script>
+  </body>
 </html>
