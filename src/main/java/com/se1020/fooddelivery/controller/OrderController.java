@@ -82,3 +82,5 @@ public class OrderController {
         return "redirect:/customer/orders/history";
     }
 }
+
+// order placment and tracking
